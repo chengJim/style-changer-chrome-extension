@@ -1,0 +1,52 @@
+{
+  "manifest_version": 3,
+  "name": "MyFontChanger",
+  "version": "1.0",
+  "description": "修改网页文字字体",
+
+  "icons": {
+    "16": "images/紫球.png",
+    "32": "images/紫球.png",
+    "48": "images/紫球.png",
+    "128": "images/紫球.png"
+  },
+
+  "content_scripts": [
+    {
+      "js": ["scripts/content-script.js"],
+      "css": ["static.css"],
+      "matches": ["http://*/*","https://*/*","<all_urls>"]
+    }
+  ],
+
+  "background": {
+    "service_worker": "background.js"
+  },
+
+  "action": { 
+    "default_icon": {
+      "16": "images/紫球.png",
+      "32": "images/紫球.png",
+      "48": "images/紫球.png",
+      "128": "images/紫球.png"
+    },
+    "default_title": "修改网页文字字体",         
+    "_default_popup": "popup/popup.html"
+  },
+
+  "permissions": [
+    "scripting",
+    "activeTab",
+    "tabs"
+  ],
+  "host_permissions": ["*://*/*"],
+  "commands": {
+    "_execute_action": {
+      "suggested_key": {
+        "default": "Ctrl+B",
+        "mac": "Command+B"
+      }
+    }
+  }
+
+}
