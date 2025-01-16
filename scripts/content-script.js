@@ -39,7 +39,7 @@ function addStyle(){
     var style = document.createElement('style');
     style.id = "custom-style"; 
     style.innerHTML = `*{ 
-        font-family:"JetBrains Sans", "Microsoft YaHei" !important; 
+        font-family:"JetBrains Sans","PingFang SC", "Microsoft YaHei" !important; 
     }`;
     document.head.appendChild(style);
 }
