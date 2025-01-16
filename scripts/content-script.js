@@ -38,9 +38,14 @@ console.log("DOMContentLoaded事件触发");
 function addStyle(){
     var style = document.createElement('style');
     style.id = "custom-style"; 
-    style.innerHTML = `*{ 
+    style.innerHTML = `
+    *{ 
         font-family:"JetBrains Sans","PingFang SC", "Microsoft YaHei" !important; 
-    }`;
+    }
+    code, .code, [class^="code-"]{
+        font-family: "JetBrains Mono", "SF Mono", "JetBrains Sans","PingFang SC", "Microsoft YaHei" !important; 
+    }
+    `;
     document.head.appendChild(style);
 }
 function removeStyle(){
