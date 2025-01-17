@@ -26,7 +26,13 @@ main > :last-child {
   margin-bottom: min(10vmax, 10rem);
 } */
 
+/* manifest.json注入静态css 时机快,能提前生效, 但不好控制,似乎在页面CSSDOM中找不到,如同浏览器内置的CSS */
+
 * {
-  /* font-family: Microsoft YaHei !important; */
-  /* font-family:"JetBrains Sans", "Microsoft YaHei" !important; */
+  font-family:"JetBrains Sans", "PingFang SC", "Microsoft YaHei" !important;
 }
+code, .code, [class^="code-"], .ace_editor * {
+  font-family: "JetBrains Mono", "SF Mono", monospace !important; 
+}
+
+/* 重置样式: font-family: "PingFang SC", "Microsoft Yahei",Arial,"sans-serif" !important; */

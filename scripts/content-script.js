@@ -33,35 +33,54 @@ document.addEventListener("readystatechange", ()=>{
     console.log("readyStatusChange事件触发:",document.readyState);   // complete
 })
 
-// 注入样式
+// 注入样式 (虽然动态注入,好控制, 但时机较晚,页面加载后再触发样式变化,而manifest中注入会立马覆盖,效果很好,但不好动态关闭,似乎CSSDOM中找不到,如同浏览器内置样式)
 console.log("DOMContentLoaded事件触发");
-function addStyle(){
-    var style = document.createElement('style');
-    style.id = "custom-style"; 
-    style.innerHTML = `
+
+// 自定义的样式
+const customStyle=`
     *{ 
         font-family:"JetBrains Sans","PingFang SC", "Microsoft YaHei" !important; 
     }
-    code, .code, [class^="code-"]{
-        font-family: "JetBrains Mono", "SF Mono", "JetBrains Sans","PingFang SC", "Microsoft YaHei" !important; 
+    code, .code, [class^="code-"], .ace_editor * {
+        font-family: "JetBrains Mono", "SF Mono", monospace !important; 
     }
-    `;
+`
+// 重置样式 (用于覆盖自定义样式)
+const resetStyle=`
+    *{ 
+        font-family: "PingFang SC", "Microsoft Yahei",Arial,"sans-serif" !important;
+    }
+`;
+
+function addCustomStyle(){
+    var style = document.createElement('style');
+    style.id = "custom-style"; 
+    style.innerHTML = customStyle;
     document.head.appendChild(style);
+
 }
-function removeStyle(){
+function removeCustomStyle(){
+    // 删除插入的自定义样式
     var customStyle = document.getElementById('custom-style');
     customStyle && customStyle.remove()
+    
+    // 而通过manifest注入自定义的样式只能通过插入重置样式来覆盖,重复添加相同的样式,浏览器似乎会去重.
+    var style = document.createElement('style');
+    style.innerHTML = resetStyle
+    document.head.appendChild(style);
+
+
 }
 
-addStyle();
+// addStyle();   // 改为初始通过manifest中注入样式
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {  // 也会接收tabs.sendMessage()发送的消息
     console.log("接收到消息runtime:",message,sender,sendResponse);
     if(message.action==='addStyle'){
-        addStyle();
+        addCustomStyle();
     }
     if(message.action==='removeStyle'){
-        removeStyle();
+        removeCustomStyle();
     }
     sendResponse("content-script.js收到消息");
 });
