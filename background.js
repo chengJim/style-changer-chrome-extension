@@ -24,7 +24,7 @@ const OFF = 'OFF';
 // 可以将应用状态保存在Storage和IndexedDB中。
 
 chrome.runtime.onInstalled.addListener( async() => { 
-    console.log("onInstalled事件触发");
+    // console.log("onInstalled事件触发");
     chrome.action.setBadgeText({text: ON,});
 });
 // 新建tab页时触发，输入地址或刷新页面不触发。 // 为什么是tab,因为一个tab例可能有很多个页面(document,frame);
@@ -45,7 +45,6 @@ chrome.tabs.onUpdated.addListener(async (tabId,changeInfo,tab) => {
 // 注意：如果配置了default_popup，则点击图标不会触发该事件
 const blockList = [ ];
 chrome.action.onClicked.addListener(async (tab) => { // 对当前tab执行操作
-    // console.log("onClicked事件触发：", tab);
     if (tab.url.includes('chrome://') || tab.url.includes('chrome-extension://') || tab.url?.includes('edge://') ){
         console.log('can`t run on start page')
         return;
@@ -53,15 +52,13 @@ chrome.action.onClicked.addListener(async (tab) => { // 对当前tab执行操作
 
     let nextState = await switchBadgeText(tab.id);
 
-    // 切换后，执行相应操作：启用或关闭自定义样坏死
+    // 切换后，执行相应操作：启用或关闭自定义样式
     if (nextState === ON) {
-        // await on(tab);
         chrome.tabs.sendMessage(tab.id,{ action: 'addStyle' },{}, (response)=>{console.log("回信:",response)}); // 可插件间,tab间通讯.
         // chrome.runtime.sendMessage({},()=>{}); // 这种应该是所有tab都会收到消息吧.我们只需要切换当前tab的中的样式.
 
     } 
     if (nextState === OFF) {
-        // await off(tab);
         chrome.tabs.sendMessage(tab.id,{ action: 'removeStyle' },{}, (response)=>{console.log("回信:",response)}); // 可插件间,tab间通讯.
     }
 
@@ -75,9 +72,6 @@ chrome.action.onClicked.addListener(async (tab) => { // 对当前tab执行操作
 
 
 // 在网页中执行的函数
-
-
-
 async function setBadgeText(tabId,text){
     await chrome.action.setBadgeText({
         tabId: tabId,

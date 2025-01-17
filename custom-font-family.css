@@ -27,6 +27,7 @@ main > :last-child {
 } */
 
 /* manifest.json注入静态css 时机快,能提前生效, 但不好控制,似乎在页面CSSDOM中找不到,如同浏览器内置的CSS */
+/* manifest.json注入的样式也更稳定,能影响动态插入元素的文本的样式, 例如百度点搜索后内容会动态刷新,样式不变. */
 
 * {
   font-family:"JetBrains Sans", "PingFang SC", "Microsoft YaHei" !important;

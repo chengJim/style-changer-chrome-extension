@@ -25,6 +25,7 @@
 // 也可以通过MutationObserver来监听某个元素被添加到DOM，或等待DOMContentLoaded事件触发表明DOM可用。
 // document_end: 在DOMContentLoaded事件之后执行。
 // document_idle: 在document_end后执行某个时刻（大约DOMContentLoaded的200毫秒后），或者在window load事件后会立即触发。
+
 console.log("content-script.js执行");
 console.log("document.readyState:",document.readyState)  // 此时： interactive 且DOMContentLoaded事件触发后。
 // document.addEventListener('DOMContentLoaded',()=>{}); // 此事件不触发，已经触发过了
